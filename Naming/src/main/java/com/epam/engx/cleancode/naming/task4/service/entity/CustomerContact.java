@@ -1,4 +1,4 @@
-package com.epam.engx.cleancode.naming.task4.thirdpartyjar;
+package com.epam.engx.cleancode.naming.task4.service.entity;
 
 public class CustomerContact {
 

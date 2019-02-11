@@ -1,8 +1,9 @@
 package com.epam.engx.cleancode.naming.task5;
 
-import com.epam.engx.cleancode.naming.task5.thirdpartyjar.InvalidDirectoryException;
-import com.epam.engx.cleancode.naming.task5.thirdpartyjar.InvalidFileTypeException;
-import com.epam.engx.cleancode.naming.task5.thirdpartyjar.PropertyUtil;
+import com.epam.engx.cleancode.naming.task5.exception.InvalidDirectoryException;
+import com.epam.engx.cleancode.naming.task5.exception.InvalidFileTypeException;
+import com.epam.engx.cleancode.naming.task5.service.FileExtensionPredicateServiceImpl;
+import com.epam.engx.cleancode.naming.task5.service.PropertyUtilService;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -12,55 +13,55 @@ import java.util.List;
 
 public final class FileManager {
 
-    private static final String[] TYPES = {"jpg", "png"};
-    private static final String[] TYPES2 = {"pdf", "doc"};
+    private static final String[] IMAGES = {"jpg", "png"};
+    private static final String[] TEXT_DOCS = {"pdf", "doc"};
 
-    private String bp = PropertyUtil.loadProperty("basePath");
+    private String basePath = PropertyUtilService.loadProperty("basePath");
+    private final String DIR_PATH = basePath + File.separator;
 
-    public File retrieveFile(String fileName) {
-        validateFileType(fileName);
-        final String dirPath = bp + File.separator;
-        return Paths.get(dirPath, fileName).toFile();
+    public File retrieve(String fileName) {
+        validateType(fileName);
+        return Paths.get(DIR_PATH, fileName).toFile();
     }
 
-    public List<String> listAllImages() {
-        return files(bp, TYPES);
+    public List<String> getImageList() {
+        return files(basePath, IMAGES);
     }
 
-    public List<String> listAllDocumentFiles() {
-        return files(bp, TYPES2);
+    public List<String> getDocumentList() {
+        return files(basePath, TEXT_DOCS);
     }
 
-    private void validateFileType(String fileName) {
-        if (isInvalidFileType(fileName)) {
+    private void validateType(String fileName) {
+        if (isInvalidType(fileName)) {
             throw new InvalidFileTypeException("File type not Supported: " + fileName);
         }
     }
 
-    private boolean isInvalidFileType(String fileName) {
+    private boolean isInvalidType(String fileName) {
         return isInvalidImage(fileName) && isInvalidDocument(fileName);
     }
 
     private boolean isInvalidImage(String fileName) {
-        FileExtPred imageExtensionsPredicate = new FileExtPred(TYPES);
-        return !imageExtensionsPredicate.test(fileName);
+        FileExtensionPredicateServiceImpl fileExtensionPredicateService = new FileExtensionPredicateServiceImpl(IMAGES);
+        return !fileExtensionPredicateService.checkIsExtension(fileName);
     }
 
     private boolean isInvalidDocument(String fileName) {
-        FileExtPred documentExtensionsPredicate = new FileExtPred(TYPES2);
-        return !documentExtensionsPredicate.test(fileName);
+        FileExtensionPredicateServiceImpl documentExtensionsPredicate = new FileExtensionPredicateServiceImpl(TEXT_DOCS);
+        return !documentExtensionsPredicate.checkIsExtension(fileName);
     }
 
     private List<String> files(String directoryPath, String[] allowedExtensions) {
-        final FileExtPred pred = new FileExtPred(allowedExtensions);
-        return Arrays.asList(directory(directoryPath).list(getFilenameFilterByPredicate(pred)));
+        final FileExtensionPredicateServiceImpl fileExtensionPredicateService = new FileExtensionPredicateServiceImpl(allowedExtensions);
+        return Arrays.asList(directory(directoryPath).list(getFilenameFilterByPredicate(fileExtensionPredicateService)));
     }
 
-    private FilenameFilter getFilenameFilterByPredicate(final FileExtPred pred) {
+    private FilenameFilter getFilenameFilterByPredicate(final FileExtensionPredicateServiceImpl fileExtensionPredicateService) {
         return new FilenameFilter() {
             @Override
             public boolean accept(File dir, String str) {
-                return pred.test(str);
+                return fileExtensionPredicateService.checkIsExtension(str);
             }
         };
     }
