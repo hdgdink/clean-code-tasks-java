@@ -65,9 +65,8 @@ public class TablePrinter implements Command {
     }
 
     private String buildNotEmptyTable(Table table) {
-        List<String> columnNames = table.getTableData().get(0).getColumnNames();
-
-        return printUpperBorder(table) + printValues(columnNames, table) + printMediumborder(table) + iterateRows(table);
+        List<String> columnNames = table.getColumnNames();
+        return printUpperBorder(table) + printValues(columnNames, table) + printMediumBorder(table) + iterateRows(table);
     }
 
     private String iterateRows(Table table) {
@@ -80,7 +79,7 @@ public class TablePrinter implements Command {
             result.append(printValues(values, table));
 
             if (i < table.getRowsCount() - 1) {
-                result.append(printMediumborder(table));
+                result.append(printMediumBorder(table));
 
             } else {
                 result.append(printLowerBorder(table));
@@ -98,7 +97,7 @@ public class TablePrinter implements Command {
 
     private String printValues(List<String> valueList, Table table) {
         int maxColumnSize = table.getMaxColumnSize();
-        maxColumnSize = getAdditionalSpaceForOddSize(maxColumnSize);
+        maxColumnSize = getAdditionalSpaceForOddorEvenSize(maxColumnSize);
 
         List<String> stringValueList = new ArrayList<>();
 
@@ -124,7 +123,7 @@ public class TablePrinter implements Command {
         return String.format("╔%s╗\n", horizontalBorderLineWithDelimeter);
     }
 
-    private String printMediumborder(Table table) {
+    private String printMediumBorder(Table table) {
         String result = null;
 
         if (table.getTableData().size() > 0) {
@@ -155,7 +154,7 @@ public class TablePrinter implements Command {
         int maxColumnSize = table.getMaxColumnSize();
         int columnCount = table.getColumnCount();
 
-        maxColumnSize = getAdditionalSpaceForOddSize(maxColumnSize);
+        maxColumnSize = getAdditionalSpaceForOddorEvenSize(maxColumnSize);
 
         for (int j = 1; j < columnCount; j++) {
             lineWithDelimeter.append(getHorizontalBorderLine(maxColumnSize)).append(delimeterSymbol);
@@ -165,12 +164,13 @@ public class TablePrinter implements Command {
         return lineWithDelimeter.toString();
     }
 
-    private int getAdditionalSpaceForOddSize(int maxColumnSize) {
+    private int getAdditionalSpaceForOddorEvenSize(int maxColumnSize) {
         if (maxColumnSize % 2 == 0) {
             maxColumnSize += 2;
         } else {
             maxColumnSize += 3;
         }
+
         return maxColumnSize;
     }
 

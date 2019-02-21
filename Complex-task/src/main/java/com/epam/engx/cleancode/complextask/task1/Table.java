@@ -30,10 +30,6 @@ public class Table {
         return columnCount;
     }
 
-    public void setColumnCount(int columnCount) {
-        this.columnCount = columnCount;
-    }
-
     List<DataSet> getTableData() {
         return tableData;
     }
