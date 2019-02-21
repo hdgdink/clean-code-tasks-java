@@ -1,4 +1,4 @@
-package com.epam.engx.cleancode.naming.task5.exception;
+package com.epam.engx.cleancode.naming.task5.thirdpartyjar;
 
 public class InvalidDirectoryException extends RuntimeException{
     private String message;

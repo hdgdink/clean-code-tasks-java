@@ -1,4 +1,4 @@
-package com.epam.engx.cleancode.naming.task5.exception;
+package com.epam.engx.cleancode.naming.task5.thirdpartyjar;
 
 public class InvalidFileTypeException extends RuntimeException {
     private String message;

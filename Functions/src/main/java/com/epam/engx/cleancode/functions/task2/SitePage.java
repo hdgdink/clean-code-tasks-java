@@ -4,41 +4,42 @@ package com.epam.engx.cleancode.functions.task2;
 import java.util.Map;
 
 
-public class SitePage {
+class SitePage {
 
-    private static final String HTTP = "http://";
-    private static final String EDITABLE = "/?edit=true";
-    private static final String DOMAIN = "mysite.com";
-
+    private static final String HTTP_EDITABLE_DOMAIN_URL = "http://mysite.com/?edit=true";
 
     private String siteGroup;
     private String userGroup;
 
-    public SitePage(String siteGroup, String userGroup) {
+    SitePage(String siteGroup, String userGroup) {
         this.siteGroup = siteGroup;
         this.userGroup = userGroup;
     }
 
-    public String getEditablePageUrl(Map<String, String> params) {
-        String paramsString = "";
-        for (Map.Entry<String, String> param : params.entrySet())
-            paramsString += "&" + param.getKey() + "=" + param.getValue();
-        return HTTP + DOMAIN + EDITABLE + paramsString + getAttributes();
+    String getEditablePageUrl(Map<String, String> params) {
+        StringBuilder paramsString = new StringBuilder();
+
+        for (Map.Entry<String, String> parameter : params.entrySet()) {
+            paramsString.append(getParamsString(parameter));
+        }
+
+        return HTTP_EDITABLE_DOMAIN_URL + paramsString + getAttributes();
+    }
+
+    private String getParamsString(Map.Entry<String, String> parameter) {
+        return "&" + parameter.getKey() + "=" + parameter.getValue();
     }
 
     private String getAttributes() {
         return "&siteGrp=" + getSiteGroup() + "&userGrp=" + getUserGroup();
     }
 
-    public String getUserGroup() {
+    private String getUserGroup() {
         return userGroup;
     }
 
-    public String getSiteGroup() {
+    private String getSiteGroup() {
         return siteGroup;
     }
-
-
-
 
 }

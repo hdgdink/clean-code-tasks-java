@@ -3,7 +3,6 @@ package com.epam.engx.cleancode.errorhandling.task1.thirdpartyjar;
 import java.util.Map;
 
 public class Address {
-
     private Map<String, String> data;
 
     public Address(Map data) {

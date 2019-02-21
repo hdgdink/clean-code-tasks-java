@@ -17,7 +17,7 @@ import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 
-public class PrintTest {
+public class TablePrinterTest {
     private View view;
     private DatabaseManager manager;
     private Command command;
@@ -27,7 +27,7 @@ public class PrintTest {
     public void setup() {
         manager = Mockito.mock(DatabaseManager.class);
         view = Mockito.mock(View.class);
-        command = new Print(view, manager);
+        command = new TablePrinter(view, manager);
     }
 
     @Test
@@ -36,7 +36,7 @@ public class PrintTest {
         dataSet.put("id", 1);
         prepareSingleResult();
         //when
-        command.process("print test");
+        command.printerProcess("print test");
         //then
         assertPrinted("[" +
                 "╔════╗\n" +
@@ -52,7 +52,7 @@ public class PrintTest {
         dataSet.put("i", 1);
         prepareSingleResult();
         //when
-        command.process("print test");
+        command.printerProcess("print test");
         //then
         assertPrinted("[" +
                 "╔════╗\n" +
@@ -69,7 +69,7 @@ public class PrintTest {
         dataSet.put("j", 1234567890);
         prepareSingleResult();
         //when
-        command.process("print test");
+        command.printerProcess("print test");
         //then
         assertPrinted("[" +
                 "╔════════════╦════════════╗\n" +
@@ -84,7 +84,7 @@ public class PrintTest {
         //given
         Mockito.when(manager.getTableData("testing")).thenReturn(new LinkedList<DataSet>());
         //when
-        command.process("print testing");
+        command.printerProcess("print testing");
         //then
         assertPrinted("[" +
                 "╔════════════════════════════════════════════╗\n" +
@@ -94,13 +94,13 @@ public class PrintTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldTrowExceptionWhenCommandIsWrong() {
-        command.process("print");
+        command.printerProcess("print");
     }
 
     @Test
     public void shouldProcessValidCommand() {
         //when
-        boolean canProcess = command.canProcess("print test");
+        boolean canProcess = command.isPossibleProcess("print test");
         //then
         assertTrue(canProcess);
     }
@@ -108,7 +108,7 @@ public class PrintTest {
     @Test
     public void shouldNotProcessInvalidCommand() {
         //when
-        boolean canProcess = command.canProcess("qwe");
+        boolean canProcess = command.isPossibleProcess("qwe");
         //then
         assertFalse(canProcess);
     }
@@ -118,7 +118,7 @@ public class PrintTest {
         //given
         createUserDataSets(createUser(1, "Steven Seagal", "123456"), createUser(2, "Eva Song", "789456"));
         //when
-        command.process("print users");
+        command.printerProcess("print users");
         //then
         assertPrinted("[" +
                 "╔════════════════╦════════════════╦════════════════╗\n" +

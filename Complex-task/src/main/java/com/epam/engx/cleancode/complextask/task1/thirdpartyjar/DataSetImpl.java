@@ -9,22 +9,21 @@ public class DataSetImpl implements DataSet {
         private String columnName;
         private Object value;
 
-        public Data(String columnName, Object value){
+         Data(String columnName, Object value){
             this.columnName = columnName;
             this.value = value;
         }
 
-
-        public String getColumnName() {
+         String getColumnName() {
             return columnName;
         }
 
-        public Object getValue() {
+         Object getValue() {
             return value;
         }
     }
 
-    List<Data> data = new LinkedList<>();
+    private List<Data> data = new LinkedList<>();
 
     @Override
     public void put(String columnName, Object value) {

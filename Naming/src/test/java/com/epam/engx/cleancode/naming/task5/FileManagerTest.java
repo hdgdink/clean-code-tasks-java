@@ -1,6 +1,6 @@
 package com.epam.engx.cleancode.naming.task5;
 
-import com.epam.engx.cleancode.naming.task5.exception.InvalidFileTypeException;
+import com.epam.engx.cleancode.naming.task5.thirdpartyjar.InvalidFileTypeException;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -1,7 +1,7 @@
 package com.epam.engx.cleancode.naming.task5.service;
 
 
-import com.epam.engx.cleancode.naming.task5.exception.MissingConfigFileException;
+import com.epam.engx.cleancode.naming.task5.thirdpartyjar.MissingConfigFileException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,12 +9,12 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class PropertyUtilService {
+public class PropertyUtil {
 
-    private static final Logger LOGGER = Logger.getLogger(PropertyUtilService.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(PropertyUtil.class.getName());
     private static final String CONFIG_FILE_NAME = "config.properties";
 
-    private PropertyUtilService() {
+    private PropertyUtil() {
     }
 
     public static String loadProperty(String property) {

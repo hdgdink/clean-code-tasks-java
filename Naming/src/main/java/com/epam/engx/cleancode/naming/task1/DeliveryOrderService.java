@@ -1,11 +1,10 @@
-package com.epam.engx.cleancode.naming.task1.service.impl;
+package com.epam.engx.cleancode.naming.task1;
 
-import com.epam.engx.cleancode.naming.task1.entity.Product;
-import com.epam.engx.cleancode.naming.task1.exception.NotDeliverableOrderException;
-import com.epam.engx.cleancode.naming.task1.service.DeliveryService;
-import com.epam.engx.cleancode.naming.task1.service.Order;
-import com.epam.engx.cleancode.naming.task1.service.OrderFulfilmentService;
-import com.epam.engx.cleancode.naming.task1.service.OrderService;
+import com.epam.engx.cleancode.naming.task1.thirdpartyjar.Product;
+import com.epam.engx.cleancode.naming.task1.thirdpartyjar.NotDeliverableOrderException;
+import com.epam.engx.cleancode.naming.task1.thirdpartyjar.DeliveryService;
+import com.epam.engx.cleancode.naming.task1.thirdpartyjar.Order;
+import com.epam.engx.cleancode.naming.task1.thirdpartyjar.OrderFulfilmentService;
 
 import java.util.List;
 
@@ -17,8 +16,8 @@ public class DeliveryOrderService implements OrderService {
     @Override
     public void submit(Order order) {
         if (deliveryService.isDeliverable()) {
-            List<Product> productList = order.getListOfProducts();
-            orderFulfilmentService.fulfil(productList);
+            List<Product> productList = order.getProducts();
+            orderFulfilmentService.fulfilProducts(productList);
         } else {
             throw new NotDeliverableOrderException();
         }

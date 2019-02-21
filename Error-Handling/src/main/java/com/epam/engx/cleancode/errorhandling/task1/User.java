@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class User {
-
     private AddressDao addressDao;
     private OrderDao orderDao;
     private String userId;
@@ -14,17 +13,42 @@ public class User {
 
     public Address getPreferredAddress() {
         try {
-            List<Address> deliveryAddresses = addressDao.getDeliveryAddresses(userId);
-            List<Address> orderAddresses = orderDao.getOrderAddresses(userId);
-            if (!deliveryAddresses.isEmpty())
-                return deliveryAddresses.get(0);
-            else if (!orderAddresses.isEmpty())
-                return orderAddresses.get(orderAddresses.size() - 1);
-            else
-                return addressDao.getHomeAddress(userId);
+            return getAddress();
         } catch (SQLException e) {
             return defaultAddress;
         }
+    }
+
+    private Address getAddress() throws SQLException {
+        return checkDeliveryAddress();
+    }
+
+    private Address checkDeliveryAddress() throws SQLException {
+        List<Address> deliveryAddresses = addressDao.getDeliveryAddresses(userId);
+
+        if (isNotEmptyDeliveryAddresses(deliveryAddresses)) {
+            return deliveryAddresses.get(0);
+        } else {
+            return checkOrderAddress();
+        }
+    }
+
+    private Address checkOrderAddress() throws SQLException {
+        List<Address> orderAddresses = orderDao.getOrderAddresses(userId);
+
+        if (isNotEmptyOrderAddresses(orderAddresses)) {
+            return orderAddresses.get(orderAddresses.size() - 1);
+        } else {
+            return addressDao.getHomeAddress(userId);
+        }
+    }
+
+    private boolean isNotEmptyOrderAddresses(List<Address> orderAddresses) {
+        return !orderAddresses.isEmpty();
+    }
+
+    private boolean isNotEmptyDeliveryAddresses(List<Address> deliveryAddresses) {
+        return !deliveryAddresses.isEmpty();
     }
 
     public void setAddressDao(AddressDao addressDao) {

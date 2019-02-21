@@ -4,20 +4,20 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class AccountDetails {
-    private Date birth;
+    private Date birthDate;
     private int age;
     private BigDecimal balance;
     private Date startDate;
 
-    public Date getBirth() {
-        return birth;
+    Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirth(Date birth) {
-        this.birth = birth;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
-    public Date getStartDate() {
+    Date getStartDate() {
         return startDate;
     }
 
@@ -25,7 +25,7 @@ public class AccountDetails {
         this.startDate = startDate;
     }
 
-    public BigDecimal getBalance() {
+    BigDecimal getBalance() {
         return balance;
     }
 
@@ -33,7 +33,7 @@ public class AccountDetails {
         this.balance = balance;
     }
 
-    public int getAge() {
+    int getAge() {
         return age;
     }
 

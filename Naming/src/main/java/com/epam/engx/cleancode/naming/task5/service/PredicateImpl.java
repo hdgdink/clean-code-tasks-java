@@ -1,16 +1,18 @@
 package com.epam.engx.cleancode.naming.task5.service;
 
 
-public class FileExtensionPredicateServiceImpl implements FileExtensionPredicateService<String> {
+import com.epam.engx.cleancode.naming.task5.thirdpartyjar.Predicate;
+
+public class PredicateImpl implements Predicate<String> {
 
     private String[] extensions;
 
-    public FileExtensionPredicateServiceImpl(String[] extensions) {
+    public PredicateImpl(String[] extensions) {
         this.extensions = extensions;
     }
 
     @Override
-    public boolean checkIsExtension(String fileName) {
+    public boolean test(String fileName) {
         for (String extension : extensions) {
 
             if (fileName.toLowerCase().endsWith(extension)) {
