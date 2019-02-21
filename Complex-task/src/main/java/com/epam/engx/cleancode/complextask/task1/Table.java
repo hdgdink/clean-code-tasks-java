@@ -4,7 +4,7 @@ import com.epam.engx.cleancode.complextask.task1.thirdpartyjar.DataSet;
 
 import java.util.List;
 
-public class Table {
+class Table {
     private int maxColumnSize;
     private int columnCount;
     private List<DataSet> tableData;
