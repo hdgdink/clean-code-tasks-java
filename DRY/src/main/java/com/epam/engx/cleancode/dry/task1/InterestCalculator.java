@@ -11,23 +11,19 @@ public class InterestCalculator {
     private static final double SENIOR_PERCENT_RATE = 5.5d;
     private static final int BONUS_AGE = 13;
 
-    private Calendar startCalendar = new GregorianCalendar();
-    private Calendar endCalendar = new GregorianCalendar();
-
-
     public BigDecimal calculateInterest(AccountDetails accountDetails) {
         if (isAccountStartedAfterBonusAge(accountDetails)) {
-            return getResultOfCalculation(accountDetails);
-        } else {
-            return BigDecimal.ZERO;
+            return doCalculateInterest(accountDetails);
         }
+
+        return BigDecimal.ZERO;
     }
 
     private boolean isAccountStartedAfterBonusAge(AccountDetails accountDetails) {
         return durationBetweenDatesInYears(accountDetails.getBirthDate(), accountDetails.getStartDate()) > BONUS_AGE;
     }
 
-    private BigDecimal getResultOfCalculation(AccountDetails accountDetails) {
+    private BigDecimal doCalculateInterest(AccountDetails accountDetails) {
         return BigDecimal.valueOf(calculateResult(accountDetails));
     }
 
@@ -44,18 +40,17 @@ public class InterestCalculator {
 
 
     private int durationBetweenDatesInYears(Date from, Date to) {
-        startCalendar.setTime(from);
-        endCalendar.setTime(to);
-
-        return calculateYearDifference(startCalendar, endCalendar);
+        return calculateYearDifference(getCalendar(from), getCalendar(to));
     }
 
+    private Calendar getCalendar(Date date) {
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(date);
+        return calendar;
+    }
 
     private int durationSinceStartDateInYears(Date startDate) {
-        startCalendar.setTime(startDate);
-        endCalendar.setTime(new Date());
-
-        return calculateYearDifference(startCalendar, endCalendar);
+        return calculateYearDifference(getCalendar(startDate), getCalendar(new Date()));
 
     }
 

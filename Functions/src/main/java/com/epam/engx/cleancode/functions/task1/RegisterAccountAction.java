@@ -19,9 +19,13 @@ public class RegisterAccountAction {
 
     public void register(Account account) {
         validate(account);
-        account.setCreatedDate(new Date());
-        account.setAddresses(getAdresses(account));
+        fillAccount(account);
         accountManager.create(account);
+    }
+
+    private void fillAccount(Account account) {
+        account.setCreatedDate(new Date());
+        account.setAddresses(getAddresses(account));
     }
 
     private void validate(Account account) {
@@ -47,7 +51,7 @@ public class RegisterAccountAction {
         return passwordChecker.validate(password) != OK;
     }
 
-    private List<Address> getAdresses(Account account) {
+    private List<Address> getAddresses(Account account) {
         List<Address> addresses = new ArrayList<>();
         addresses.add(account.getHomeAddress());
         addresses.add(account.getWorkAddress());

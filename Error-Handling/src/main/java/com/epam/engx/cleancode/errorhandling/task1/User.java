@@ -13,14 +13,10 @@ public class User {
 
     public Address getPreferredAddress() {
         try {
-            return getAddress();
+            return checkDeliveryAddress();
         } catch (SQLException e) {
             return defaultAddress;
         }
-    }
-
-    private Address getAddress() throws SQLException {
-        return checkDeliveryAddress();
     }
 
     private Address checkDeliveryAddress() throws SQLException {

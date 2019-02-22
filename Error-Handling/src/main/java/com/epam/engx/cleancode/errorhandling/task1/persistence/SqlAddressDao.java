@@ -1,6 +1,8 @@
 package com.epam.engx.cleancode.errorhandling.task1.persistence;
 
 import com.epam.engx.cleancode.errorhandling.task1.AddressDao;
+import com.epam.engx.cleancode.errorhandling.task1.persistence.exceptions.DeliveryAddressException;
+import com.epam.engx.cleancode.errorhandling.task1.persistence.exceptions.HomeAddressException;
 import com.epam.engx.cleancode.errorhandling.task1.persistence.thirdpartyjar.SqlService;
 import com.epam.engx.cleancode.errorhandling.task1.thirdpartyjar.Address;
 
@@ -12,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SqlAddressDao implements AddressDao {
-    private Logger logger = Logger.getLogger(SqlAddressDao.class.getName());
     private SqlService sqlService;
 
     public SqlAddressDao(SqlService sqlService) {
@@ -21,12 +22,11 @@ public class SqlAddressDao implements AddressDao {
 
     @Override
     public Address getHomeAddress(String userId) {
-        Address address = null;
+        Address address;
         try {
             address = new Address(sqlService.queryUserHomeAddress(userId));
         } catch (SQLException e) {
-            logger.log(Level.WARNING, "error getting user home address " + e);
-            e.printStackTrace();
+            throw new HomeAddressException("Error getting home address " + e);
         }
         return address;
     }
@@ -40,8 +40,8 @@ public class SqlAddressDao implements AddressDao {
                 addresses.add(new Address(addressData));
             }
         } catch (SQLException e) {
-            logger.log(Level.WARNING, "error getting  user delivery address " + e);
-            e.printStackTrace();
+            throw new DeliveryAddressException("error getting  user delivery address " + e);
+
         }
 
         return addresses;

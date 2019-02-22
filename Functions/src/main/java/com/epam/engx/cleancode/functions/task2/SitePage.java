@@ -17,13 +17,16 @@ class SitePage {
     }
 
     String getEditablePageUrl(Map<String, String> params) {
+        return HTTP_EDITABLE_DOMAIN_URL + defineRequestParameters(params) + getAttributes();
+    }
+
+    private StringBuilder defineRequestParameters(Map<String, String> params) {
         StringBuilder paramsString = new StringBuilder();
 
         for (Map.Entry<String, String> parameter : params.entrySet()) {
             paramsString.append(getParamsString(parameter));
         }
-
-        return HTTP_EDITABLE_DOMAIN_URL + paramsString + getAttributes();
+        return paramsString;
     }
 
     private String getParamsString(Map.Entry<String, String> parameter) {
